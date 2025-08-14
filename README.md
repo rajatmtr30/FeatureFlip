@@ -1,5 +1,3 @@
-# FeatureFlip
-FeatureFlip - Orientation-Based Mobile Web Application
 # FeatureFlip - Orientation-Based Mobile Web Application
 
 <!--
