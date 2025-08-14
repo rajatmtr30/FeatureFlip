@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 
+        FeatureFlip - Orientation-Based Mobile Web Application
+        =====================================================
+        
+        This application detects device orientation and displays different features:
+        - Portrait Upright: Alarm Clock
+        - Landscape Right: Stopwatch  
+        - Portrait Upside Down: Timer
+        - Landscape Left: Weather
+        
+        Author: AI-Assisted Development
+        Version: 2.0 (Enhanced UI/UX)
+        Last Updated: 2024
+    -->
+    
+    <!-- Essential Meta Tags for Mobile Optimization -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    
+    <!-- PWA (Progressive Web App) Meta Tags for iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- PWA Meta Tags for Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- SEO and Application Information -->
+    <title>FeatureFlip - Orientation-Based App</title>
+    <meta name="description" content="A responsive web app that changes features based on how you hold your mobile device">
+    <meta name="keywords" content="mobile app, orientation detection, alarm clock, stopwatch, timer, weather">
+    
+    <!-- External Resources -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 
+        Main Application Container
+        Contains all feature containers and manages orientation-based switching
+    -->
+    <div id="app">
+        <!-- 
+            FEATURE 1: Portrait Upright Orientation - Alarm Clock
+            ====================================================
+            This feature is activated when the device is held in normal portrait position
+            (home button at bottom). Provides real-time clock display and alarm functionality.
+        -->
+        <div id="alarm-clock" class="feature-container">
+            <!-- Feature Header with Icon and Title -->
+            <div class="feature-header">
+                <i class="fas fa-clock"></i>
+                <h1>Alarm Clock</h1>
+            </div>
+            
+            <!-- Real-time Clock Display -->
+            <div class="current-time" id="current-time">00:00:00</div>
+            <div class="current-date" id="current-date">Loading...</div>
+            
+            <!-- Alarm Management Section -->
+            <div class="alarm-section">
+                <h2>Set Alarm</h2>
+                
+                <!-- Alarm Input Controls -->
+                <div class="alarm-input">
+                    <input type="time" id="alarm-time" value="07:00">
+                    <button id="set-alarm" class="btn btn-primary">
+                        <i class="fas fa-bell"></i> Set Alarm
+                    </button>
+                </div>
+                
+                <!-- Dynamic Alarm List Container -->
+                <div class="alarm-list" id="alarm-list">
+                    <!-- Alarms will be dynamically added here by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 
+            FEATURE 2: Landscape Right Orientation - Stopwatch
+            =================================================
+            This feature is activated when the device is rotated 90° clockwise
+            (home button on right side). Provides precision timing with lap functionality.
+        -->
+        <div id="stopwatch" class="feature-container">
+            <!-- Feature Header with Icon and Title -->
+            <div class="feature-header">
+                <i class="fas fa-stopwatch"></i>
+                <h1>Stopwatch</h1>
+            </div>
+            
+            <!-- Precision Time Display (Hours:Minutes:Seconds.Centiseconds) -->
+            <div class="stopwatch-display" id="stopwatch-display">00:00:00.00</div>
+            
+            <!-- Stopwatch Control Buttons -->
+            <div class="stopwatch-controls">
+                <button id="start-stopwatch" class="btn btn-success">
+                    <i class="fas fa-play"></i> Start
+                </button>
+                <button id="pause-stopwatch" class="btn btn-warning">
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+                <button id="reset-stopwatch" class="btn btn-danger">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+            
+            <!-- Lap Times Display Container -->
+            <div class="lap-times" id="lap-times">
+                <!-- Lap times will be dynamically added here by JavaScript -->
+                <!-- Double-click start button to add lap times -->
+            </div>
+        </div>
+
+        <!-- 
+            FEATURE 3: Portrait Upside Down Orientation - Timer
+            ==================================================
+            This feature is activated when the device is flipped upside down
+            (home button at top). Provides countdown timer with preset options.
+        -->
+        <div id="timer" class="feature-container">
+            <!-- Feature Header with Icon and Title -->
+            <div class="feature-header">
+                <i class="fas fa-hourglass-half"></i>
+                <h1>Timer</h1>
+            </div>
+            
+            <!-- Countdown Timer Display (Minutes:Seconds) -->
+            <div class="timer-display" id="timer-display">00:00</div>
+            
+            <!-- Timer Input Fields for Custom Duration -->
+            <div class="timer-input">
+                <input type="number" id="minutes" placeholder="Minutes" min="0" max="59" value="25">
+                <input type="number" id="seconds" placeholder="Seconds" min="0" max="59" value="0">
+            </div>
+            
+            <!-- Timer Control Buttons -->
+            <div class="timer-controls">
+                <button id="start-timer" class="btn btn-success">
+                    <i class="fas fa-play"></i> Start
+                </button>
+                <button id="pause-timer" class="btn btn-warning">
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+                <button id="reset-timer" class="btn btn-danger">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+            
+            <!-- Quick Preset Timer Buttons -->
+            <div class="preset-timers">
+                <button class="preset-btn" data-minutes="5">5 min</button>
+                <button class="preset-btn" data-minutes="10">10 min</button>
+                <button class="preset-btn" data-minutes="15">15 min</button>
+                <button class="preset-btn" data-minutes="25">25 min</button>
+            </div>
+        </div>
+
+        <!-- 
+            FEATURE 4: Landscape Left Orientation - Weather
+            ===============================================
+            This feature is activated when the device is rotated 90° counter-clockwise
+            (home button on left side). Provides real-time weather information.
+        -->
+        <div id="weather" class="feature-container">
+            <!-- Feature Header with Icon and Title -->
+            <div class="feature-header">
+                <i class="fas fa-cloud-sun"></i>
+                <h1>Weather</h1>
+            </div>
+            
+            <!-- Weather Information Container -->
+            <div class="weather-content">
+                <!-- Current Location Display -->
+                <div class="location" id="location">Loading location...</div>
+                
+                <!-- Main Weather Information -->
+                <div class="weather-main">
+                    <div class="temperature" id="temperature">--°C</div>
+                    <div class="weather-description" id="weather-description">Loading...</div>
+                    <div class="weather-icon" id="weather-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                </div>
+                
+                <!-- Detailed Weather Information -->
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <i class="fas fa-tint"></i>
+                        <span>Humidity: <span id="humidity">--%</span></span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-wind"></i>
+                        <span>Wind: <span id="wind-speed">-- km/h</span></span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>Feels like: <span id="feels-like">--°C</span></span>
+                    </div>
+                </div>
+                
+                <!-- Weather Refresh Button -->
+                <button id="refresh-weather" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- 
+            Orientation Indicator
+            =====================
+            Floating indicator that shows current device orientation and active feature.
+            Positioned in top-right corner to avoid blocking content. Features:
+            - Auto-fades after 3 seconds to reduce visual interference
+            - Click to hide temporarily (reappears after 5 seconds)
+            - Hover effects for better user interaction
+            - Responsive design that adapts to screen size
+        -->
+        <div id="orientation-indicator" class="orientation-indicator">
+            <div class="orientation-text">
+                <i class="fas fa-mobile-alt"></i>
+                <span id="orientation-text">Detecting orientation...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        JavaScript Application Logic
+        ===========================
+        Loads the main application script that handles:
+        - Orientation detection and feature switching
+        - Alarm clock functionality
+        - Stopwatch with lap times
+        - Timer with presets
+        - Weather API integration
+        - Notifications and haptic feedback
+    -->
+    <script src="script.js"></script>
+</body>
+</html>

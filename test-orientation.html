@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 
+        FeatureFlip - Orientation Testing Tool
+        =====================================
+        
+        This HTML file provides a testing interface for the FeatureFlip application's
+        orientation detection system. It allows users to test and understand how
+        the orientation detection works, especially useful for desktop testing
+        where physical device rotation isn't possible.
+        
+        Features:
+        - Real-time orientation detection display
+        - Manual orientation simulation buttons
+        - Visual feedback for current orientation
+        - Instructions for mobile testing
+        
+        Author: AI-Assisted Development
+        Version: 1.0
+        Last Updated: 2024
+    -->
+    
+    <!-- Essential Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Page Title and Description -->
+    <title>FeatureFlip - Orientation Test</title>
+    <meta name="description" content="Test and understand the orientation detection system for FeatureFlip">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .orientation-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .orientation-info h3 {
+            margin-top: 0;
+        }
+        .test-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .test-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .test-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .feature-display {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .instructions h3 {
+            margin-top: 0;
+        }
+        .instructions ul {
+            text-align: left;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FeatureFlip - Orientation Test</h1>
+        
+        <div class="orientation-info">
+            <h3>Current Orientation</h3>
+            <p><strong>Screen Size:</strong> <span id="screen-size">Detecting...</span></p>
+            <p><strong>Orientation:</strong> <span id="orientation">Detecting...</span></p>
+            <p><strong>Feature:</strong> <span id="feature">Detecting...</span></p>
+        </div>
+
+        <div class="test-buttons">
+            <button class="test-btn" onclick="simulateOrientation('portrait-upright')">
+                Portrait Upright<br><small>Alarm Clock</small>
+            </button>
+            <button class="test-btn" onclick="simulateOrientation('landscape-right')">
+                Landscape Right<br><small>Stopwatch</small>
+            </button>
+            <button class="test-btn" onclick="simulateOrientation('portrait-upside-down')">
+                Portrait Upside Down<br><small>Timer</small>
+            </button>
+            <button class="test-btn" onclick="simulateOrientation('landscape-left')">
+                Landscape Left<br><small>Weather</small>
+            </button>
+        </div>
+
+        <div class="feature-display" id="feature-display">
+            Click a button above to simulate orientation
+        </div>
+
+        <div class="instructions">
+            <h3>How to Test on Mobile</h3>
+            <ul>
+                <li><strong>Portrait Upright:</strong> Hold your phone normally (home button at bottom)</li>
+                <li><strong>Landscape Right:</strong> Rotate phone 90° clockwise (home button on right)</li>
+                <li><strong>Portrait Upside Down:</strong> Flip phone upside down (home button at top)</li>
+                <li><strong>Landscape Left:</strong> Rotate phone 90° counter-clockwise (home button on left)</li>
+            </ul>
+            <p><strong>Note:</strong> Some devices may not support all orientations. The app will automatically detect the best available orientation.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentOrientation = null;
+
+        function updateOrientationInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const orientation = window.orientation || 0;
+            
+            document.getElementById('screen-size').textContent = `${width} × ${height}`;
+            document.getElementById('orientation').textContent = currentOrientation || 'Unknown';
+            
+            const featureMap = {
+                'portrait-upright': 'Alarm Clock',
+                'landscape-right': 'Stopwatch',
+                'portrait-upside-down': 'Timer',
+                'landscape-left': 'Weather'
+            };
+            
+            document.getElementById('feature').textContent = featureMap[currentOrientation] || 'None';
+        }
+
+        function simulateOrientation(orientation) {
+            currentOrientation = orientation;
+            updateOrientationInfo();
+            
+            const featureMap = {
+                'portrait-upright': '⏰ Alarm Clock',
+                'landscape-right': '⏱️ Stopwatch',
+                'portrait-upside-down': '⏲️ Timer',
+                'landscape-left': '🌤️ Weather'
+            };
+            
+            document.getElementById('feature-display').textContent = featureMap[orientation];
+        }
+
+        function detectOrientation() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const orientation = window.orientation || 0;
+            
+            let newOrientation = null;
+            
+            if (width > height) {
+                if (orientation === 90 || (width > height && width > 800)) {
+                    newOrientation = 'landscape-right';
+                } else {
+                    newOrientation = 'landscape-left';
+                }
+            } else {
+                if (orientation === 0 || (height > width && height > 800)) {
+                    newOrientation = 'portrait-upright';
+                } else {
+                    newOrientation = 'portrait-upside-down';
+                }
+            }
+
+            if (newOrientation !== currentOrientation) {
+                currentOrientation = newOrientation;
+                updateOrientationInfo();
+            }
+        }
+
+        // Listen for orientation and resize changes
+        window.addEventListener('orientationchange', () => {
+            setTimeout(detectOrientation, 100);
+        });
+
+        window.addEventListener('resize', detectOrientation);
+
+        // Initial detection
+        detectOrientation();
+        updateOrientationInfo();
+    </script>
+</body>
+</html>

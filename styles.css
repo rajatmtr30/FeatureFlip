@@ -1,0 +1,1046 @@
+/*
+    FeatureFlip - Orientation-Based Mobile Web Application
+    =====================================================
+    
+    This CSS file provides comprehensive styling for the FeatureFlip application,
+    implementing a modern, responsive design with glass morphism effects,
+    smooth animations, and mobile-first approach.
+    
+    Key Design Features:
+    - Glass morphism with backdrop blur effects
+    - Gradient backgrounds and text effects
+    - Smooth transitions and micro-animations
+    - Mobile-first responsive design
+    - Accessibility considerations
+    - Cross-browser compatibility
+    
+    Author: AI-Assisted Development
+    Version: 2.0 (Enhanced UI/UX)
+    Last Updated: 2024
+*/
+
+/* ==========================================================================
+   RESET AND BASE STYLES
+   ========================================================================== */
+
+/* 
+    CSS Reset - Ensures consistent styling across all browsers
+    Removes default margins, padding, and sets box-sizing to border-box
+    for more predictable layout calculations
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 
+    Body Element - Main application container
+    Sets up the base styling, background, and typography for the entire application
+*/
+body {
+    /* Typography - Modern, readable font stack with fallbacks */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    /* Background - Beautiful gradient background with multiple color stops */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    
+    /* Layout - Full viewport height with hidden overflow */
+    min-height: 100vh;
+    overflow: hidden;
+    
+    /* Font Rendering - Smooth text rendering for better readability */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Positioning - Relative positioning for absolute child elements */
+    position: relative;
+}
+
+/* 
+    Animated Background Overlay - Creates dynamic visual depth
+    Uses pseudo-element to add multiple radial gradients for enhanced visual appeal
+    This creates a subtle animated effect that adds depth to the background
+*/
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Multiple radial gradients for layered depth effect */
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+    
+    /* Interaction - Prevents interference with user interactions */
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 
+    Main Application Container (#app)
+    =================================
+    The primary container that holds all feature containers and manages
+    the overall application layout and positioning
+*/
+#app {
+    /* Positioning - Relative positioning for absolute child elements */
+    position: relative;
+    
+    /* Layout - Full viewport dimensions */
+    width: 100vw;
+    height: 100vh;
+    
+    /* Overflow - Hidden to prevent scrollbars */
+    overflow: hidden;
+    
+    /* Z-index - Ensures app content appears above background overlay */
+    z-index: 1;
+}
+
+/* ==========================================================================
+   FEATURE CONTAINERS
+   ========================================================================== */
+
+/* 
+    Feature Container Base Styles
+    =============================
+    Each feature container represents one of the four main features:
+    - Alarm Clock (Portrait Upright)
+    - Stopwatch (Landscape Right)
+    - Timer (Portrait Upside Down)
+    - Weather (Landscape Left)
+    
+    These containers use absolute positioning and are shown/hidden based on
+    device orientation detection.
+*/
+.feature-container {
+    /* Positioning - Absolute positioning to overlay all containers */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Layout - Flexbox for centered content arrangement */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    /* Spacing - Consistent padding for content breathing room */
+    padding: 20px;
+    
+    /* Glass Morphism Effect - Modern translucent background with blur */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    
+    /* Initial State - Hidden by default with scale and translate effects */
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+    
+    /* Smooth Transitions - Cubic bezier for natural animation feel */
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Z-index - Base layer for feature containers */
+    z-index: 1;
+    
+    /* Visual Design - Rounded corners and margin for glass effect */
+    border-radius: 20px;
+    margin: 10px;
+    
+    /* Overflow Control - Prevent content from spilling outside container */
+    overflow: hidden;
+    
+    /* Enhanced Shadow System - Multiple shadow layers for depth */
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),    /* Main shadow */
+        0 8px 16px rgba(0, 0, 0, 0.05),     /* Secondary shadow */
+        inset 0 1px 0 rgba(255, 255, 255, 0.2); /* Inner highlight */
+}
+
+.feature-container.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    z-index: 10;
+}
+
+/* Feature Headers */
+.feature-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.feature-header i {
+    font-size: 4rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.feature-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #333, #666);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Current Time and Date */
+.current-time {
+    font-size: 4.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.current-date {
+    font-size: 1.3rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Alarm Section */
+.alarm-section {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.alarm-section h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.alarm-input {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.alarm-input input[type="time"] {
+    padding: 18px;
+    font-size: 1.3rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 15px;
+    background: white;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.alarm-input input[type="time"]:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+    transform: translateY(-2px);
+}
+
+.alarm-list {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.alarm-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: 15px;
+    margin-bottom: 12px;
+    border-left: 5px solid #667eea;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.alarm-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.alarm-item .time {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.alarm-item .delete-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.alarm-item .delete-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+}
+
+/* Stopwatch */
+.stopwatch-display {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: #333;
+    text-align: center;
+    margin-bottom: 35px;
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 30px;
+    border-radius: 20px;
+    border: 2px solid #e1e5e9;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.stopwatch-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.stopwatch-controls {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.lap-times {
+    max-height: 250px;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.lap-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.lap-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Timer */
+.timer-display {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: #333;
+    text-align: center;
+    margin-bottom: 35px;
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 30px;
+    border-radius: 20px;
+    border: 2px solid #e1e5e9;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.timer-input {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    justify-content: center;
+}
+
+.timer-input input {
+    width: 100px;
+    padding: 18px;
+    font-size: 1.3rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.timer-input input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+    transform: translateY(-2px);
+}
+
+.timer-controls {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.preset-timers {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.preset-btn {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.preset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
+    background: linear-gradient(135deg, #5a6268, #343a40);
+}
+
+/* Weather */
+.weather-content {
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.location {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.weather-main {
+    margin-bottom: 35px;
+}
+
+.temperature {
+    font-size: 4.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.weather-description {
+    font-size: 1.4rem;
+    color: #666;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+
+.weather-icon {
+    font-size: 4rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3));
+    animation: weatherFloat 4s ease-in-out infinite;
+}
+
+@keyframes weatherFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(2deg); }
+    75% { transform: translateY(-5px) rotate(-2deg); }
+}
+
+.weather-details {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.detail-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.detail-item i {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    width: 25px;
+    font-size: 1.2rem;
+}
+
+/* Buttons */
+.btn {
+    padding: 18px 30px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 140px;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5a6fd8, #6a4c93);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #218838, #1ea085);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.5);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: #212529;
+    box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #e0a800, #e8590c);
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545, #e83e8c);
+    color: white;
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333, #d63384);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.5);
+}
+
+/* Orientation Indicator */
+.orientation-indicator {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6));
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 1000;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.orientation-indicator:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.orientation-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.orientation-text i {
+    font-size: 1rem;
+    animation: rotate 3s linear infinite;
+    transition: transform 0.3s ease;
+}
+
+.orientation-indicator:hover .orientation-text i {
+    transform: scale(1.2);
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .feature-container {
+        padding: 15px;
+        margin: 5px;
+    }
+    
+    .feature-header h1 {
+        font-size: 2rem;
+    }
+    
+    .feature-header i {
+        font-size: 3rem;
+    }
+    
+    .current-time,
+    .stopwatch-display,
+    .timer-display,
+    .temperature {
+        font-size: 3.5rem;
+        padding: 20px;
+    }
+    
+    .btn {
+        padding: 15px 25px;
+        font-size: 1rem;
+        min-width: 120px;
+    }
+    
+    .stopwatch-controls,
+    .timer-controls {
+        gap: 15px;
+    }
+    
+    .timer-input {
+        gap: 15px;
+    }
+    
+    .timer-input input {
+        width: 80px;
+        padding: 15px;
+        font-size: 1.1rem;
+    }
+    
+    .alarm-section,
+    .weather-content {
+        padding: 20px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-container {
+        padding: 10px;
+        margin: 2px;
+    }
+    
+    .feature-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .feature-header i {
+        font-size: 2.5rem;
+    }
+    
+    .current-time,
+    .stopwatch-display,
+    .timer-display,
+    .temperature {
+        font-size: 3rem;
+        padding: 15px;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+    
+    .stopwatch-controls,
+    .timer-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .timer-input {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .timer-input input {
+        width: 120px;
+    }
+    
+    .preset-timers {
+        gap: 10px;
+    }
+    
+    .preset-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .alarm-section,
+    .weather-content {
+        padding: 15px;
+        max-width: 100%;
+    }
+    
+    /* Weather specific mobile adjustments */
+    .weather-content {
+        padding: 12px;
+    }
+    
+    .location {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+    
+    .temperature {
+        font-size: 3.5rem;
+        margin-bottom: 12px;
+    }
+    
+    .weather-description {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    
+    .weather-icon {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .weather-details {
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+    
+    .detail-item {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    
+    .orientation-indicator {
+        top: 8px;
+        right: 8px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        max-width: 150px;
+    }
+}
+
+/* Landscape specific adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    .feature-container {
+        padding: 8px;
+    }
+    
+    .feature-header {
+        margin-bottom: 10px;
+    }
+    
+    .feature-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .feature-header i {
+        font-size: 2rem;
+    }
+    
+    .current-time,
+    .stopwatch-display,
+    .timer-display,
+    .temperature {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        padding: 15px;
+    }
+    
+    .current-date {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+    
+    .btn {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+        min-width: 80px;
+    }
+    
+    .stopwatch-controls,
+    .timer-controls {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .alarm-section h2,
+    .weather-content h2 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+    }
+    
+    .alarm-section,
+    .weather-content {
+        padding: 15px;
+    }
+    
+    /* Weather specific landscape adjustments */
+    .weather-content {
+        padding: 10px;
+    }
+    
+    .weather-details {
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .detail-item {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .location {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    
+    .weather-description {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+    
+    .weather-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+}
+
+/* Smooth transitions for orientation changes */
+.feature-container {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Touch-friendly improvements */
+.btn,
+.preset-btn,
+.alarm-item .delete-btn {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+input,
+button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Scrollbar styling */
+.lap-times::-webkit-scrollbar,
+.alarm-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lap-times::-webkit-scrollbar-track,
+.alarm-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.lap-times::-webkit-scrollbar-thumb,
+.alarm-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 4px;
+}
+
+.lap-times::-webkit-scrollbar-thumb:hover,
+.alarm-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd8, #6a4c93);
+}
+
+/* Loading animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.feature-container.active {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Glass morphism effect */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+}
+
+/* Enhanced focus states */
+input:focus,
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Improved accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
